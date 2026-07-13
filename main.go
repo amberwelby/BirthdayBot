@@ -6,14 +6,16 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
+	"time"
 
 	"encoding/json"
 
 	"github.com/bwmarrin/discordgo"
 )
 
-func getBirthDates() []string{
+func getBirthDates(month string, day string) []string{
 	// Handle json file
 	birthdayFile, err := os.Open("birthdays.json")
 
@@ -42,9 +44,17 @@ func getBirthDates() []string{
 	}
 
 	// Look up birthday
-	names := birthdays["January"]["01"]
+	names := birthdays[month][day]
 
 	return names
+}
+
+func getToday() (string, string){
+	date := strings.Split(time.Now().Format(time.DateOnly), "-")
+	month := date[1]
+	day := date[2]
+
+	return month, day
 }
 
 func getToken() string{
@@ -61,6 +71,9 @@ func main() {
 	// Get bot token from token.txt
 	token := getToken()
 
+	// Get current date
+	month, day := getToday()
+
 	// Create new session
 	sess, err := discordgo.New(fmt.Sprintf("Bot %s", token))
 	if err != nil {
@@ -74,7 +87,7 @@ func main() {
 		}
 
 		if m.Content == "Birthdays?" {
-			birthdays := getBirthDates()
+			birthdays := getBirthDates(month, day)
 			for _, name := range birthdays {
 				s.ChannelMessageSend(m.ChannelID, name)
 			}	
