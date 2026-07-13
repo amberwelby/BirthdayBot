@@ -71,9 +71,6 @@ func main() {
 	// Get bot token from token.txt
 	token := getToken()
 
-	// Get current date
-	month, day := getToday()
-
 	// Create new session
 	sess, err := discordgo.New(fmt.Sprintf("Bot %s", token))
 	if err != nil {
@@ -87,6 +84,7 @@ func main() {
 		}
 
 		if m.Content == "Birthdays?" {
+			month, day := getToday()
 			birthdays := getBirthDates(month, day)
 			for _, name := range birthdays {
 				s.ChannelMessageSend(m.ChannelID, name)
