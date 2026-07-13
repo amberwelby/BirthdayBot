@@ -13,15 +13,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func main() {
-	// Get bot token from token.txt
-	tokenFile, err := os.ReadFile("token.txt")
-	if err != nil {
-		log.Fatalf("Token not found: %s", err)
-	}
-
-	token := string(tokenFile)
-
+func getBirthDates() []string{
 	// Handle json file
 	birthdayFile, err := os.Open("birthdays.json")
 
@@ -39,13 +31,35 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var months map[string]map[string][]string
+	birthdayFile.Close()
 
-	err = json.Unmarshal(byteValue, &months)
+	var birthdays map[string]map[string][]string
+
+	err = json.Unmarshal(byteValue, &birthdays)
 	if err != nil {
 		fmt.Println("Unmarshal Error")
 		log.Fatal(err)
 	}
+
+	// Look up birthday
+	names := birthdays["January"]["01"]
+
+	return names
+}
+
+func getToken() string{
+		// Get bot token from token.txt
+	tokenFile, err := os.ReadFile("token.txt")
+	if err != nil {
+		log.Fatalf("Token not found: %s", err)
+	}
+
+	return string(tokenFile)
+}
+
+func main() {
+	// Get bot token from token.txt
+	token := getToken()
 
 	// Create new session
 	sess, err := discordgo.New(fmt.Sprintf("Bot %s", token))
@@ -60,10 +74,10 @@ func main() {
 		}
 
 		if m.Content == "Birthdays?" {
-			names := months["January"]["01"]
-			for _, name := range names {
+			birthdays := getBirthDates()
+			for _, name := range birthdays {
 				s.ChannelMessageSend(m.ChannelID, name)
-			}
+			}	
 		}
 	})
 
