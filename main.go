@@ -86,9 +86,13 @@ func main() {
 		if m.Content == "Birthdays?" {
 			month, day := getToday()
 			birthdays := getBirthDates(month, day)
-			for _, name := range birthdays {
-				s.ChannelMessageSend(m.ChannelID, name)
-			}	
+			if len(birthdays) == 0 {
+				s.ChannelMessageSend(m.ChannelID, "No birthdays today")
+			} else {
+				for _, name := range birthdays {
+					s.ChannelMessageSend(m.ChannelID, name)
+					}	
+			}
 		}
 	})
 
