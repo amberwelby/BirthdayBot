@@ -5,3 +5,4 @@ Set up tutorial by [Brian Morrison](https://youtu.be/XuFq7NW3ii4?si=g9wnxcFpjzr6
 
 Add your bot token to token.txt
 Add your own important birth dates to birthdays.json
+Add your channel ID to channelid.txt. Find it in Discord under your developer settings
