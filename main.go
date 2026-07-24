@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/joho/godotenv"
 )
 
 func birthdayMessage(s *discordgo.Session, channelID string) {
@@ -65,32 +66,12 @@ func getBirthDates(month string, day string) []string {
 	return names
 }
 
-func getChannelID() string {
-	// Get channel ID from channelid.txt
-	channelidFile, err := os.ReadFile("channelid.txt")
-	if err != nil {
-		log.Fatalf("Channel ID not found: %s", err)
-	}
-
-	return string(channelidFile)
-}
-
 func getToday() (string, string) {
 	date := strings.Split(time.Now().Format(time.DateOnly), "-")
 	month := date[1]
 	day := date[2]
 
 	return month, day
-}
-
-func getToken() string {
-	// Get bot token from token.txt
-	tokenFile, err := os.ReadFile("token.txt")
-	if err != nil {
-		log.Fatalf("Token not found: %s", err)
-	}
-
-	return string(tokenFile)
 }
 
 func scheduler(s *discordgo.Session, channelID string) {
@@ -121,10 +102,10 @@ func scheduler(s *discordgo.Session, channelID string) {
 }
 
 func main() {
-	// Get bot token from token.txt
-	token := getToken()
-
-	channelID := getChannelID()
+	// Get environment variables
+	godotenv.Load()
+	token := os.Getenv("BOT_TOKEN")
+	channelID := os.Getenv("CHANNEL_ID")
 
 	// Create new session
 	sess, err := discordgo.New(fmt.Sprintf("Bot %s", token))
