@@ -11,6 +11,9 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
+
+	// The underscore import registers the driver with database/sql
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -25,6 +28,17 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Open database connection
+	db, err := src.NewDatabase("./birthdays.db")
+	if err != nil {
+		log.Fatalf("Failed to open database: %v", err)
+	}
+	defer db.Close()
+
+	if err := src.InitializeSchema(db); err != nil {
+		log.Fatalf("Failed to initilize schema: %v", err)
+	}
+
 	// Handle recieved messages
 	sess.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if m.Author.ID == s.State.User.ID {
@@ -37,8 +51,9 @@ func main() {
 			if len(birthdays) == 0 {
 				s.ChannelMessageSend(m.ChannelID, "No birthdays today")
 			} else {
-				for _, name := range birthdays {
-					s.ChannelMessageSend(m.ChannelID, name)
+				for _, person := range birthdays {
+					message := fmt.Sprintf("%v %v", person.First_name, person.Last_name)
+					s.ChannelMessageSend(m.ChannelID, message)
 				}
 			}
 		}

@@ -3,6 +3,7 @@
 Discord bot that sends a reminder so you never forgot an important birthday again!
 
 Set up tutorial by [Brian Morrison](https://youtu.be/XuFq7NW3ii4?si=g9wnxcFpjzr60P8O)
+Database tutorial by [@nawazdhandala](https://oneuptime.com/blog/post/2026-02-02-sqlite-go/view)
 
 ## Set Up Instructions (Raspberry Pi)
 
@@ -22,11 +23,11 @@ Set up tutorial by [Brian Morrison](https://youtu.be/XuFq7NW3ii4?si=g9wnxcFpjzr6
 
     [Service]
     Type=simple
-    WorkingDirectory=/home/blueberry/BirthdayBot
-    ExecStart=/home/blueberry/BirthdayBot/birthday-bot.exe
+    WorkingDirectory=/home/{username}/BirthdayBot
+    ExecStart=/home/{username}/BirthdayBot/birthday-bot.exe
     Restart=always
     RestartSec=5
-    User=blueberry
+    User={username}
 
     [Install]
     WantedBy=multi-user.target

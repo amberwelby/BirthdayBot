@@ -1,11 +1,8 @@
 package src
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"log"
-	"os"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -26,36 +23,20 @@ func BirthdayMessage(session *discordgo.Session, channelID string) {
 	session.ChannelMessageSend(channelID, message)
 }
 
-func GetBirthDates(month string, day string) []string {
-	// Handle json file
-	birthdayFile, err := os.Open("birthdays.json")
-
+func GetBirthDates(month string, day string) []Person {
+	// Open database
+	db, err := NewDatabase("./birthdays.db")
 	if err != nil {
-		fmt.Println("Read error")
-		log.Fatal(err)
+		log.Printf("Database error: %v", err)
+		return nil
 	}
 
-	defer birthdayFile.Close()
-
-	// Unmarshalling JSON
-	byteValue, err := io.ReadAll(birthdayFile)
+	// Look up birthdays
+	names, err := RetrieveByDate(db, month, day)
 	if err != nil {
-		fmt.Println("Byte string error")
-		log.Fatal(err)
+		log.Printf("Retrieve error: %v", err)
+		return nil
 	}
-
-	birthdayFile.Close()
-
-	var birthdays map[string]map[string][]string
-
-	err = json.Unmarshal(byteValue, &birthdays)
-	if err != nil {
-		fmt.Println("Unmarshal Error")
-		log.Fatal(err)
-	}
-
-	// Look up birthday
-	names := birthdays[month][day]
 
 	return names
 }
