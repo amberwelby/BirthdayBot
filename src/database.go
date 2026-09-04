@@ -5,7 +5,7 @@ import (
 	"errors"
 	"log"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 const schema = `
@@ -39,7 +39,10 @@ func NewDatabase(dbPath string) (*sql.DB, error) {
 	// _foreign_keys=ON enables foreign key constraint enforcement
 	dsn := dbPath + "?_journal_mode=WAL&_busy_timeout=5000&_synchronous=NORMAL&_cache_size=-64000&_foreign_keys=ON"
 
-	db, err := sql.Open("sqlite3", dsn)
+	db, err := sql.Open("sqlite", dsn)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
 
 	db.SetMaxOpenConns(1) // Support only 1 writer at a time
 	db.SetConnMaxIdleTime(1)

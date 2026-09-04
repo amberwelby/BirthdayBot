@@ -11,9 +11,6 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
-
-	// The underscore import registers the driver with database/sql
-	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
