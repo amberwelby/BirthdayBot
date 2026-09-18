@@ -9,7 +9,7 @@ import (
 )
 
 const schema = `
-CREATE TABLE IF NOT EXISTS bithdays (
+CREATE TABLE IF NOT EXISTS birthdays (
 	first_name TEXT NOT NULL, 
 	last_name TEXT NOT NULL, 
 	month TEXT NOT NULL, 

@@ -26,7 +26,7 @@ func main() {
 	}
 
 	// Open database connection
-	db, err := src.NewDatabase("./birthdays.db")
+	db, err := src.NewDatabase("./data/birthdays.db")
 	if err != nil {
 		log.Fatalf("Failed to open database: %v", err)
 	}

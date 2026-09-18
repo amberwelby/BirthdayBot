@@ -1,4 +1,8 @@
 birthdays.json
 todo.md
 .env
-birthdays.db
+*.db
+*.db-shm
+*.sqlite-shm
+*.db-wal
+*.sqlite-wal
