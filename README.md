@@ -13,7 +13,7 @@ Database tutorial by [@nawazdhandala](https://oneuptime.com/blog/post/2026-02-02
 4. Add environment variables to `.env`
    1. Add your bot token, generated from [Discord Developer Portal](https://discord.com/developers/applications)
    2. Add your channel ID, found in the Discord app with developer settings turned on
-5. Add your importants birthdates to `birthdays.json`
+~~5. Add your important birthdates to `birthdays.json`~~ BirthdayBot now runs on SQLite. Convert your existing data with the (non liable, as is) `convert.py` script, or use the `addBirthday` slash command to add to your database
 6. In the BirthdayBot folder, run `go build -o birthday-bot.exe`
 7. `nano /etc/systemd/system/birthday-bot.service`
     ```
@@ -36,8 +36,15 @@ Database tutorial by [@nawazdhandala](https://oneuptime.com/blog/post/2026-02-02
 9. `systemctl enable birthday-bot.service`
 10. `systemctl start birthday-bot.service`
 11. `systemctl status birthday-bot.service`
-12. BirthdayBot is set to run at 8:30am, or can be tested by messaging "Birthdays?" in any server channel it's invited to. Slash commands to come. 
+12. BirthdayBot is set to run at 8am, and can be tested with any of the commands below 
 
 ## Available Commands
-1. "Birthdays?" returns any birthdays for todays date
-2. [Coming soon] "/addbirthday first last yyyy/mm/dd" adds a birthday entry to `birthdays.json`
+1. "/addbirthday first last yyyy/mm/dd" adds a birthday entry 
+2. "/getperson first last" retrieves a person record
+3. "/getdate mm dd" retrieves all people born on that date
+4. "/getmonth mm" retrieves all people born in the month
+5. "/getyear yyyy" retrieves all people born in that year 
+6. "/update first last mm dd {yyyy, deceased}" updates record of the person with name "first last"
+7. "/schedule h" updates the scheduler to the 24h time specified 
+8. "/remove first last" deletes the record of a person with name "first last"
+9. "/help" will display the list of available commands and their arguments
