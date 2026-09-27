@@ -53,9 +53,9 @@ func main() {
 			return
 		}
 
-		test_prefix := args[0][1:]
+		command := args[0][1:]
 
-		switch test_prefix {
+		switch command {
 		// Create
 		case "addbirthday":
 			person := &src.Person{}
@@ -67,6 +67,8 @@ func main() {
 			}
 			if len(args) == 4 {
 				person.Deceased = true
+			} else {
+				person.Deceased = false
 			}
 			message := src.Create(db, person)
 			session.ChannelMessageSend(channelID, message)
@@ -138,7 +140,7 @@ func main() {
 				hour = 8
 			}
 			if hour > 23 || hour < 0 {
-				session.ChannelMessageSend(channelID, err.Error())
+				session.ChannelMessageSend(channelID, "Given hour outside of 0-23. Defaulted to 8am")
 				hour = 8
 			}
 			src.UpdateSchedule(db, session, channelID, hour)

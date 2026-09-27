@@ -5,9 +5,6 @@ import (
 	"fmt"
 )
 
-// To do
-// Currently impossible to have deceased flag with no birth year
-
 func Create(db *sql.DB, person *Person) string {
 	var result sql.Result
 	var err error
@@ -15,11 +12,6 @@ func Create(db *sql.DB, person *Person) string {
 
 	if (person.Year == ""){
 		person.Year = "NA"
-	}
-
-	// This might be unnecessary
-	if (person.Deceased != true){
-		person.Deceased = false
 	}
 
 	query := `INSERT INTO birthdays (first_name, last_name, month, day, year, deceased) VALUES (?, ?, ?, ?, ?, ?)`
