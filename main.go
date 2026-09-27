@@ -61,12 +61,11 @@ func main() {
 			person := &src.Person{}
 			person.First_name = args[1]
 			person.Last_name = args[2]
-			person.Month = args[3]
-			person.Day = args[4]
-			if len(args) >= 6 {
-				person.Year = args[5]
+			person.Month, person.Day, person.Year, err = src.ValidateDate(args[3])
+			if err != nil {
+				session.ChannelMessageSend(channelID, err.Error())
 			}
-			if len(args) == 7 {
+			if len(args) == 4 {
 				person.Deceased = true
 			}
 			message := src.Create(db, person)
@@ -80,22 +79,30 @@ func main() {
 				src.PrintPersonDate(person, session, channelID)
 			}
 		case "getdate":
-			input := strings.Split(args[1], "/")
-			people, err := src.RetrieveByDate(db, input[0], input[1])
+			month, day, _, err := src.ValidateDate(args[1])
+			people, err := src.RetrieveByDate(db, month, day)
 			if err != nil {
 				session.ChannelMessageSend(channelID, err.Error())
 			} else {
 				src.PrintPeople(people, session, channelID)
 			}
 		case "getmonth":
-			people, err := src.RetrieveByMonth(db, args[1])
+			month, _, err := src.ValidateMonth(args[1])
+			if err != nil {
+				session.ChannelMessageSend(channelID, err.Error())
+			}
+			people, err := src.RetrieveByMonth(db, month)
 			if err != nil {
 				session.ChannelMessageSend(channelID, err.Error())
 			} else {
 				src.PrintPeople(people, session, channelID)
 			}
 		case "getyear":
-			people, err := src.RetrieveByYear(db, args[1])
+			year, err := src.ValidateYear(args[1])
+			if err != nil {
+				session.ChannelMessageSend(channelID, err.Error())
+			}
+			people, err := src.RetrieveByYear(db, year)
 			if err != nil {
 				session.ChannelMessageSend(channelID, err.Error())
 			} else {
@@ -106,12 +113,11 @@ func main() {
 			person := &src.Person{}
 			person.First_name = args[1]
 			person.Last_name = args[2]
-			person.Month = args[3]
-			person.Day = args[4]
-			if len(args) >= 6 {
-				person.Year = args[5]
+			person.Month, person.Day, person.Year, err = src.ValidateDate(args[3])
+			if err != nil {
+				session.ChannelMessageSend(channelID, err.Error())
 			}
-			if len(args) == 7 {
+			if len(args) == 4 {
 				person.Deceased = true
 			}
 			err := src.UpdatePerson(db, person)	

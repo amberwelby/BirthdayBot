@@ -39,12 +39,12 @@ Database tutorial by [@nawazdhandala](https://oneuptime.com/blog/post/2026-02-02
 12. BirthdayBot is set to run at 8am, and can be tested with any of the commands below 
 
 ## Available Commands
-1. "/addbirthday first last yyyy/mm/dd" adds a birthday entry 
+1. "/addbirthday first last {yyyy/}mm/dd {deceased}" adds a birthday entry 
 2. "/getperson first last" retrieves a person record
-3. "/getdate mm dd" retrieves all people born on that date
+3. "/getdate mm/dd" retrieves all people born on that date
 4. "/getmonth mm" retrieves all people born in the month
 5. "/getyear yyyy" retrieves all people born in that year 
-6. "/update first last mm dd {yyyy, deceased}" updates record of the person with name "first last"
+6. "/update first last {yyyy/}mm/dd {deceased}" updates record of the person with name "first last"
 7. "/schedule h" updates the scheduler to the 24h time specified 
 8. "/remove first last" deletes the record of a person with name "first last"
 9. "/help" will display the list of available commands and their arguments
