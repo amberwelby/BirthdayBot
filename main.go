@@ -119,7 +119,7 @@ func main() {
 			if err != nil {
 				session.ChannelMessageSend(channelID, err.Error())
 			}
-			if len(args) == 4 {
+			if len(args) == 5 {
 				person.Deceased = true
 			}
 			err := src.UpdatePerson(db, person)	

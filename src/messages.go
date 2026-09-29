@@ -17,7 +17,7 @@ func BirthdayMessage(db *sql.DB, session *discordgo.Session, channelID string) e
 	}
 
 	if len(birthdays) == 0 {
-		message += "No birthdays today"
+		message = "No birthdays today"
 	} else {
 		for _, person := range birthdays {
 			message += fmt.Sprintln(person.First_name, person.Last_name)
@@ -36,10 +36,10 @@ func PrintPerson(person *Person, session *discordgo.Session, channelID string){
 	if person.Year != "NA" {
 		year = fmt.Sprintf("%s/", person.Year)
 	}
-	message += fmt.Sprintf("%s %s %s%s/%s", person.First_name, person.Last_name, year, person.Month, person.Day)
+	message = fmt.Sprintf("%s %s %s%s/%s", person.First_name, person.Last_name, year, person.Month, person.Day)
 
 	if person.Deceased {
-		message += fmt.Sprintf("%s, deceased", message)
+		message = fmt.Sprintf("%s, deceased", message)
 	} 
 
 	session.ChannelMessageSend(channelID, message) 			
@@ -62,7 +62,7 @@ func PrintPeople(people []*Person, session *discordgo.Session, channelID string)
 	message := ""
 
 	if len(people) == 0 {
-		message += "No people found"
+		message = "No people found"
 	} else {
 		for _, person := range people {
 			PrintPerson(person, session, channelID)
